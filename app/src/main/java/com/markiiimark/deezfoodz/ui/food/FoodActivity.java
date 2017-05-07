@@ -12,17 +12,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.markiiimark.deezfoodz.R;
+import com.markiiimark.deezfoodz.app.DeezFoodzApplication;
 import com.markiiimark.deezfoodz.app.StringUtils;
 import com.markiiimark.deezfoodz.model.Food;
 import com.markiiimark.deezfoodz.model.FoodzItem;
 import com.markiiimark.deezfoodz.ui.LifecycleLoggingActivity;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FoodActivity extends LifecycleLoggingActivity implements FoodView {
 
-    FoodPresenter presenter;
+    @Inject FoodPresenter presenter;
 
     public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
@@ -46,11 +49,13 @@ public class FoodActivity extends LifecycleLoggingActivity implements FoodView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        ((DeezFoodzApplication)getApplication()).getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         String foodId = getIntent().getStringExtra(EXTRA_FOOD_ID);
 
-        presenter = new FoodPresenterImpl();
+//        presenter = new FoodPresenterImpl();
         presenter.setView(this);
         presenter.getFood(foodId);
 
