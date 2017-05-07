@@ -1,12 +1,13 @@
 package com.markiiimark.deezfoodz.ui.food;
 
-import android.provider.SyncStateContract;
+import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.Log;
 
 import com.markiiimark.deezfoodz.R;
 import com.markiiimark.deezfoodz.app.Constants;
+import com.markiiimark.deezfoodz.app.DeezFoodzApplication;
 import com.markiiimark.deezfoodz.model.Food;
 import com.markiiimark.deezfoodz.model.FoodNutrient;
 import com.markiiimark.deezfoodz.model.FoodResponse;
@@ -14,18 +15,22 @@ import com.markiiimark.deezfoodz.network.UsdaApi;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by MarkiiimarK on 5/7/17.
  */
 
 public class FoodPresenterImpl implements FoodPresenter {
+
+    @Inject UsdaApi usdaApi;
+
+    public FoodPresenterImpl(Context context) {  ((DeezFoodzApplication)context).getAppComponent().inject(this);  }
+
     private FoodView view;
 
     @Override public void setView(FoodView view) {  this.view = view;  }
@@ -34,14 +39,14 @@ public class FoodPresenterImpl implements FoodPresenter {
     public void getFood(String foodId) {
         view.showLoading();
 
-        Converter.Factory converter = GsonConverterFactory.create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(converter)
-                .build();
-
-        UsdaApi usdaApi = retrofit.create(UsdaApi.class);
+//        Converter.Factory converter = GsonConverterFactory.create();
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(Constants.BASE_URL)
+//                .addConverterFactory(converter)
+//                .build();
+//
+//        UsdaApi usdaApi = retrofit.create(UsdaApi.class);
 
         usdaApi.getFoodItem(foodId).enqueue(new Callback<FoodResponse>() {
             @Override
