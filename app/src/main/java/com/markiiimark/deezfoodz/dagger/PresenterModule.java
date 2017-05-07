@@ -1,5 +1,7 @@
 package com.markiiimark.deezfoodz.dagger;
 
+import android.content.Context;
+
 import com.markiiimark.deezfoodz.ui.food.FoodPresenter;
 import com.markiiimark.deezfoodz.ui.food.FoodPresenterImpl;
 import com.markiiimark.deezfoodz.ui.foodz.FoodzPresenter;
@@ -9,6 +11,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Converter;
 
 /**
  * Created by MarkiiimarK on 5/7/17.
@@ -16,8 +19,8 @@ import dagger.Provides;
 @Module
 public class PresenterModule {
     @Provides @Singleton
-    FoodzPresenter provideFoodzPresenter() {  return new FoodzPresenterImpl();  }
+    FoodzPresenter provideFoodzPresenter(Context context) {  return new FoodzPresenterImpl(context);  }
 
     @Provides @Singleton
-    FoodPresenter provideFoodPresenter() {  return new FoodPresenterImpl();  }
+    FoodPresenter provideFoodPresenter(Context context) {  return new FoodPresenterImpl(context);  }
 }
