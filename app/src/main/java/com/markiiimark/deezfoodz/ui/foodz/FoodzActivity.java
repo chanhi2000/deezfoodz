@@ -10,12 +10,15 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.markiiimark.deezfoodz.R;
+import com.markiiimark.deezfoodz.app.DeezFoodzApplication;
 import com.markiiimark.deezfoodz.app.StringUtils;
 import com.markiiimark.deezfoodz.model.FoodzItem;
 import com.markiiimark.deezfoodz.ui.LifecycleLoggingActivity;
 import com.markiiimark.deezfoodz.ui.food.FoodActivity;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +29,7 @@ import butterknife.ButterKnife;
 
 public class FoodzActivity extends LifecycleLoggingActivity implements FoodzView {
 
-    FoodzPresenter presenter;
+    @Inject FoodzPresenter presenter;
 
     @BindView(R.id.activity_foodz_recyclerView) RecyclerView foodzRecyclerView;
     @BindView(R.id.activity_foodz_progressBar) ProgressBar progressBar;
@@ -35,11 +38,13 @@ public class FoodzActivity extends LifecycleLoggingActivity implements FoodzView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodz);
 
+        ((DeezFoodzApplication)getApplication()).getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         foodzRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        presenter = new FoodzPresenterImpl();
+//        presenter = new FoodzPresenterImpl();
         presenter.setView(this);
         presenter.getFoodz();
     }
